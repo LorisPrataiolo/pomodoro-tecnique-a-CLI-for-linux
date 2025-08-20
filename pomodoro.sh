@@ -38,6 +38,45 @@ setSession() {
 
 }
 
+# countdown method:
+#          - input: timer in minutes
+countdown() {
+
+    local timer_minutes=$1 # take the first argument
+    local total_seconds=$((timer_minutes * 60))
+
+    while (( $total_seconds > -1)); do
+
+        minutes=$((total_seconds / 60))
+        seconds=$((total_seconds % 60))
+
+        sleep 1
+        total_seconds=$((total_seconds - 1))
+
+        printf "\rRemaining: %02d:%02d" $minutes $seconds # The \r at the end returns the cursor to the beginning of the line
+
+    done
+}
+
+performSession() {
+
+    local count_session=1
+
+    echo "The session is starting..."
+    sleep 5
+    clear
+
+    while (( $count_session > 0 )); do
+        echo -e "${GREEN}\rStarting Productivity Session (number ${count_session})...${FIN}"
+        countdown $PROD_TIMER
+
+        echo -e "${YELLOW}\rStarting Rest Session...${FIN}"
+        countdown $REST_TIMER
+        count_session=$((count_session + 1))
+
+    done
+}
+
 main() {
 
     clear
@@ -53,6 +92,7 @@ main() {
     echo
 
     setSession
+    performSession
 
 }
 
