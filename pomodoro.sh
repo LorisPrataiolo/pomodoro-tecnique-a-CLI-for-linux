@@ -16,6 +16,12 @@ FIN="\033[0m"
 
 
 
+handle_interrupt() {
+    clear
+    echo -e "${RED}Pomodoro Timer has been interrupted...${FIN}"
+    exit 130 
+}
+
 
 setSession() {
     echo
@@ -39,7 +45,7 @@ setSession() {
 }
 
 # countdown method:
-#          - input: timer in minutes
+#   - input: timer in minutes
 countdown() {
 
     local timer_minutes=$1 # take the first argument
@@ -50,25 +56,32 @@ countdown() {
         minutes=$((total_seconds / 60))
         seconds=$((total_seconds % 60))
 
+        printf "\rRemaining: %02d:%02d" $minutes $seconds # The \r at the end returns the cursor to the beginning of the line
         sleep 1
         total_seconds=$((total_seconds - 1))
 
-        printf "\rRemaining: %02d:%02d" $minutes $seconds # The \r at the end returns the cursor to the beginning of the line
-
     done
+
+    echo
 }
 
+# Perform an endless session: Productivity - Rest
 performSession() {
 
     local count_session=1
 
     echo "The session is starting..."
-    sleep 5
+    sleep 2
     clear
 
     while (( $count_session > 0 )); do
+    
+        notify-send -u critical "A new Pomodoro session is started" --icon=dialog-information
+
         echo -e "${GREEN}\rStarting Productivity Session (number ${count_session})...${FIN}"
         countdown $PROD_TIMER
+        notify-send -u critical "Pomodoro Session Complete" "Time for a break!" --icon=dialog-information
+
 
         echo -e "${YELLOW}\rStarting Rest Session...${FIN}"
         countdown $REST_TIMER
@@ -91,6 +104,7 @@ main() {
     echo -e "${GREEN} 𝕝𝕖𝕥❜𝕤 𝕤𝕥𝕒𝕣𝕥 𝕒 𝕟𝕖𝕨 𝕡𝕣𝕠𝕕𝕦𝕔𝕥𝕚𝕧𝕖 𝕤𝕖𝕤𝕤𝕤𝕚𝕠𝕟 ${FIN}"
     echo
 
+    trap handle_interrupt SIGINT  # handling CTRL+C interruption command (SIGINT) 
     setSession
     performSession
 
