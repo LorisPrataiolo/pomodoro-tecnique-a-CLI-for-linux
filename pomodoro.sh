@@ -55,6 +55,8 @@ countdown() {
     local timer_minutes=$1 # take the first argument
     local total_seconds=$((timer_minutes * 60))
 
+    aplay /home/loris/Desktop/Progettini/pomodoro-tecnique-a-CLI-for-linux/sound/mixkit-achievement-bell-600.wav
+
     while (( $total_seconds > -1)); do
 
         minutes=$((total_seconds / 60))
@@ -65,7 +67,6 @@ countdown() {
         total_seconds=$((total_seconds - 1))
 
     done
-
     echo
 }
 
