@@ -1,6 +1,10 @@
 #!/bin/bash
 
 # ----- global variables ----
+POMO_ICON="/home/loris/Desktop/Progettini/pomodoro-tecnique-a-CLI-for-linux/icon/pomodoro-technique.png"
+FOCUS_ICON="/home/loris/Desktop/Progettini/pomodoro-tecnique-a-CLI-for-linux/icon/target.png"
+REST_ICON="/home/loris/Desktop/Progettini/pomodoro-tecnique-a-CLI-for-linux/icon/rest.png"
+
 PROD_TIMER=25
 REST_TIMER=5
 
@@ -76,12 +80,11 @@ performSession() {
 
     while (( $count_session > 0 )); do
     
-        notify-send -u critical "A new Pomodoro session is started" --icon=dialog-information
+        notify-send -u critical "A new Pomodoro session is started" "let's focus!" --icon=$POMO_ICON
 
         echo -e "${GREEN}\rStarting Productivity Session (number ${count_session})...${FIN}"
         countdown $PROD_TIMER
-        notify-send -u critical "Pomodoro Session Complete" "Time for a break!" --icon=dialog-information
-
+        notify-send -u critical "Pomodoro Session Complete" "Time for a break!" --icon=$REST_ICON
 
         echo -e "${YELLOW}\rStarting Rest Session...${FIN}"
         countdown $REST_TIMER
