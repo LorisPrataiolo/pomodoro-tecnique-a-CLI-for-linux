@@ -1,9 +1,14 @@
 #!/bin/bash
 
 # ----- global variables ----
-POMO_ICON="/home/loris/Desktop/Progettini/pomodoro-tecnique-a-CLI-for-linux/icon/pomodoro-technique.png"
-FOCUS_ICON="/home/loris/Desktop/Progettini/pomodoro-tecnique-a-CLI-for-linux/icon/target.png"
-REST_ICON="/home/loris/Desktop/Progettini/pomodoro-tecnique-a-CLI-for-linux/icon/rest.png"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# Construct paths using the script's directory
+POMO_ICON="${SCRIPT_DIR}/icon/pomodoro-technique.png"
+SOUND_FILE="${SCRIPT_DIR}/sound/mixkit-achievement-bell-600.wav"
+POMO_ICON="${SCRIPT_DIR}/icon/pomodoro-technique.png"
+FOCUS_ICON="${SCRIPT_DIR}/icon/target.png"
+REST_ICON="${SCRIPT_DIR}/icon/rest.png"
 
 PROD_TIMER=25
 REST_TIMER=5
@@ -55,7 +60,7 @@ countdown() {
     local timer_minutes=$1 # take the first argument
     local total_seconds=$((timer_minutes * 60))
 
-    aplay /home/loris/Desktop/Progettini/pomodoro-tecnique-a-CLI-for-linux/sound/mixkit-achievement-bell-600.wav
+    aplay $SOUND_FILE
 
     while (( $total_seconds > -1)); do
 
