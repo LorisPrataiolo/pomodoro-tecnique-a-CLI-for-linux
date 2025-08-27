@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ----- global variables ----
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 
 # Construct paths using the script's directory
 POMO_ICON="${SCRIPT_DIR}/icon/pomodoro-technique.png"
